@@ -1,6 +1,8 @@
-# Apple HIG for agents
+# Apple Human Interface Guidelines (HIG) skill for AI agents
 
-An installable agent skill and practical reference for designing, building, and reviewing interfaces across Apple platforms. It translates Apple's [Human Interface Guidelines](https://developer.apple.com/design/human-interface-guidelines) into decisions an agent can apply while working on a real product: which system component fits a task, how layouts adapt, what accessibility states to check, and where to verify a platform-specific rule.
+An installable skill for Codex, Claude Code, Cursor, GitHub Copilot, Gemini CLI, and other AI coding agents. It turns Apple's [Human Interface Guidelines](https://developer.apple.com/design/human-interface-guidelines) into practical guidance for designing, building, and reviewing native interfaces: which system component fits a task, how layouts adapt, what accessibility states to check, and where to verify a platform-specific rule.
+
+[![Validate skill package](https://github.com/Neel-Sh/Apple-HIG/actions/workflows/validate.yml/badge.svg)](https://github.com/Neel-Sh/Apple-HIG/actions/workflows/validate.yml) [![MIT License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 
 The repository includes guidance for **iOS, iPadOS, macOS, watchOS, tvOS, visionOS, Mac Catalyst, games, and iPhone Duo**. The [iPhone Duo guide](apple-hig/iphone-duo.md) covers outer and inner displays, partial folds, reserved regions, arrangement views, vertical controls, and a focused QA matrix.
 
@@ -168,12 +170,14 @@ These commands require only Python 3. The check validates the skill entrypoint, 
 
 The same check runs in [GitHub Actions](.github/workflows/validate.yml) on pushes and pull requests.
 
-For a contribution:
+For a contribution, see [CONTRIBUTING.md](CONTRIBUTING.md). In brief:
 
 1. Identify the official HIG page and its current change date. Do not turn a personal style preference into an Apple requirement.
 2. Make the smallest useful change in the relevant reference. Keep `SKILL.md` focused on routing and decisions; put platform-specific detail in its reference.
 3. Paraphrase Apple's guidance and link to the source. Do not paste whole Apple articles, artwork, or restricted design resources into this repository.
 4. Regenerate `apple-hig.md`, run the checks above, and mention the platforms and UI states you actually inspected.
+
+Use the [issue templates](https://github.com/Neel-Sh/Apple-HIG/issues/new/choose) to report outdated guidance or request coverage. Pull requests are welcome for focused, source-backed updates.
 
 To update an installed copy, pull the latest repository and copy `apple-hig/` into the same destination again. If you maintain local edits in the installed folder, review them before copying. To uninstall, remove only your installed `apple-hig` directory from the agent's skill path.
 

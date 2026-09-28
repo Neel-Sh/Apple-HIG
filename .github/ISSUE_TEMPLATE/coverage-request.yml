@@ -1,0 +1,25 @@
+name: Coverage request
+description: Suggest a missing Apple platform, component, or interaction case.
+title: "[Coverage] "
+labels: [enhancement]
+body:
+  - type: input
+    id: topic
+    attributes:
+      label: Platform or topic
+      placeholder: macOS keyboard navigation in settings
+    validations:
+      required: true
+  - type: textarea
+    id: use-case
+    attributes:
+      label: Agent task this would help
+      description: Give a concrete design, implementation, or review task.
+    validations:
+      required: true
+  - type: input
+    id: apple-source
+    attributes:
+      label: Relevant Apple source
+      description: Link a HIG or developer documentation page, if you know one.
+      placeholder: https://developer.apple.com/design/human-interface-guidelines/...

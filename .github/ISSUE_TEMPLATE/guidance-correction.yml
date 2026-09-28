@@ -1,0 +1,31 @@
+name: Guidance correction
+description: Report inaccurate, outdated, or unclear Apple platform guidance.
+title: "[Guidance] "
+labels: [documentation]
+body:
+  - type: input
+    id: location
+    attributes:
+      label: Location in this repository
+      description: Link to the file and section, if possible.
+      placeholder: apple-hig/foundations.md — Accessibility
+    validations:
+      required: true
+  - type: textarea
+    id: problem
+    attributes:
+      label: What needs correction?
+      description: Describe the current guidance and why it is inaccurate or unclear.
+    validations:
+      required: true
+  - type: input
+    id: apple-source
+    attributes:
+      label: Current Apple source
+      description: Link the relevant HIG or developer documentation page, if available.
+      placeholder: https://developer.apple.com/design/human-interface-guidelines/...
+  - type: textarea
+    id: suggestion
+    attributes:
+      label: Suggested correction
+      description: Include the platform and OS or SDK version when the behavior is version-specific.
