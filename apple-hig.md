@@ -1,9 +1,8 @@
 # Apple Human Interface Guidelines skill
 
-Combined copy of the personal Cursor skill at `~/.cursor/skills/apple-hig/`.
-Official source: https://developer.apple.com/design/human-interface-guidelines
+Generated from `apple-hig/` by `scripts/build_single_file.py`. Install the directory for skill-aware agents; this file is for agents that need one document. Relative reference links resolve in `apple-hig/`.
 
----
+Official source: https://developer.apple.com/design/human-interface-guidelines
 
 
 <!-- source: SKILL.md -->
@@ -11,39 +10,36 @@ Official source: https://developer.apple.com/design/human-interface-guidelines
 ---
 name: apple-hig
 description: >-
-  Applies Apple Human Interface Guidelines while designing or implementing
-  Apple platform UI. Use when writing or reviewing SwiftUI, UIKit, AppKit,
-  watchOS, tvOS, visionOS, or Mac Catalyst interfaces; choosing components,
-  layout, color, typography, materials, Liquid Glass, navigation, sheets,
-  menus, widgets, Live Activities, notifications, or system technologies
-  (Apple Pay, Sign in with Apple, HealthKit, MapKit, Siri, Wallet); or when
-  the user mentions HIG, Human Interface Guidelines, Apple design, or
-  platform-native look and feel. Read the matching reference file before
-  inventing custom controls.
+  Design, implement, or review native interfaces for Apple platforms using the
+  Human Interface Guidelines. Use for SwiftUI, UIKit, AppKit, iPhone Duo,
+  iPadOS, macOS, watchOS, tvOS, visionOS, and Mac Catalyst UI decisions,
+  including layout, navigation, controls, accessibility, Liquid Glass, and
+  system experiences. Load the relevant reference before making design claims.
 ---
 
 # Apple Human Interface Guidelines
 
-Synthesis of Apple's Human Interface Guidelines for implementation. Official source of truth: https://developer.apple.com/design/human-interface-guidelines
+Practical synthesis of Apple's Human Interface Guidelines for design, implementation, and review. The [official HIG](https://developer.apple.com/design/human-interface-guidelines) is the source of truth.
 
 Index captured 2026-09-27: 158 articles. Full URL map, section names, and cited APIs: [catalog.md](catalog.md).
 
-This skill is original implementation guidance. It does not replace Apple's pages. When a layout measurement, trademark, button artwork, or pass template is load-bearing, open the official URL in the catalog before shipping.
+This skill is original implementation guidance, not an Apple publication. The catalog is a dated index, so check the live Apple page for version-sensitive APIs, device specifications, measurements, platform availability, branded assets, and App Review requirements. Distinguish Apple's guidance from this skill's implementation suggestions.
 
 ## How to use this skill
 
-1. Name the platform and the job (navigate, choose, confirm, enter data, show status, play media).
-2. Pick a system component from the decision tables below. Do not draw a custom control when a system one exists.
-3. Read the matching reference file in this folder. Links are one level deep.
-4. Apply platform deltas. An iPhone layout is not a Mac layout with touch removed.
-5. Check foundations that always apply: accessibility, Dynamic Type, Dark Mode, right-to-left, safe areas, and Reduce Motion.
-6. If the task touches a branded technology (Apple Pay, Sign in with Apple, Activity rings, HomeKit, AirPlay, Wallet), follow that page's asset and wording rules exactly. Use system buttons and official artwork.
+1. Identify the target platform, minimum OS and SDK, UI framework, task, and input methods from the project. If unspecified, state a reasonable assumption. An iPhone layout is not a Mac layout with touch removed.
+2. Read only the matching reference files below, plus [foundations.md](foundations.md) when layout or accessibility is material. Follow the user's product brief and existing architecture.
+3. Choose familiar system components and semantic styles when they fit. A custom control is valid when the task needs one; preserve expected interaction and accessibility behavior.
+4. Design for actual available space, content, and state: compact and regular widths, Dynamic Type, localization, safe areas, keyboard or pointer where supported, light and dark appearance, and relevant accessibility settings. For iPhone Duo, read [iphone-duo.md](iphone-duo.md).
+5. If implementing, inspect the project's deployment target and verify APIs against that SDK before writing code. Build and inspect the resulting UI when tools are available. Do not claim simulator or device acceptance from a source review alone.
+6. Explain decisions with the relevant official HIG links when a guideline materially determines the result. Treat the catalog as a locator, not as proof that a current rule or API is unchanged.
 
 ## Reference map
 
 | When the work is about | Read |
 | --- | --- |
-| Principles, iOS, iPadOS, macOS, tvOS, visionOS, watchOS, games, iPhone Duo | [getting-started.md](getting-started.md) |
+| Principles, iOS, iPadOS, macOS, tvOS, visionOS, watchOS, games | [getting-started.md](getting-started.md) |
+| iPhone Duo, fold, dual displays, reserved regions, vertical controls | [iphone-duo.md](iphone-duo.md) |
 | Accessibility, icons, color, type, layout, materials, motion, privacy, SF Symbols, writing | [foundations.md](foundations.md) |
 | Onboarding, search, settings, files, modality, loading, media, accounts, workouts | [patterns.md](patterns.md) |
 | Charts, images, text, lists, split views, tabs, sidebars, outlines | [components-content-layout.md](components-content-layout.md) |
@@ -100,7 +96,7 @@ Liquid Glass is the functional layer for controls and navigation (tab bars, tool
 | Platform | Navigation | Primary input | Layout habit |
 | --- | --- | --- | --- |
 | iOS | Tab bar + navigation stack | Touch, 44×44 pt targets | Compact width; one column |
-| iPhone Duo | Same, controls move to the side | Touch; size classes | Outer display compact; inner regular. No fixed widths |
+| iPhone Duo | System navigation and bars adapt by pose | Touch; size classes | Outer compact, inner regular; preserve state and actions |
 | iPadOS | Sidebar or tab bar; split view; windows | Touch, pointer, Pencil, keyboard | Regular width; resizable scenes |
 | macOS | Sidebar, menu bar, toolbar, windows | Pointer and keyboard | Dense, persistent controls, full keyboard |
 | tvOS | Focus engine, top-to-bottom | Remote click and swipe | 10-foot type, no small text, no touch-only targets |
@@ -109,13 +105,13 @@ Liquid Glass is the functional layer for controls and navigation (tab bars, tool
 
 ## Always-on implementation rules
 
-- Minimum hit target is 44×44 pt on iOS and iPadOS. Add padding rather than shrinking the control.
+- Aim for at least 44×44 pt touch targets on iOS and iPadOS; grow the interactive area when artwork is smaller.
 - Use semantic colors (`Color.primary`, `secondary`, system backgrounds) and semantic text styles. Support Dark Mode and Increase Contrast without a second design.
 - Support Dynamic Type. Layouts reflow. Do not clip or shrink text to fit.
 - Respect `accessibilityReduceMotion`, `accessibilityReduceTransparency`, Bold Text, and Differentiate Without Color.
-- Mirror layout for right-to-left languages. Keep media play direction, clocks, and numbers that are not localized in their natural direction.
-- Keep controls out of the safe area, Dynamic Island, home indicator, and iPhone Duo reserved regions (hinge, cameras).
-- Every control has an accessibility label. Icons that are the only label need a text alternative. Decorative images are hidden from VoiceOver.
+- Follow the system's right-to-left layout direction. Preserve direction where the content has a fixed meaning, such as media playback or a timeline. iPhone Duo's vertical control edge follows hardware rather than mirroring for RTL.
+- Place interactive content within appropriate safe areas and layout margins. On iPhone Duo, account for camera and folding reserved regions; scrollable content can flow through the fold where appropriate.
+- Give every control an understandable accessibility name. System text labels already provide one; icon-only controls need a meaningful alternative. Hide decorative images from assistive technology.
 - Destructive actions are labeled with the verb (Delete) and confirmed when they cannot be undone. Place them away from the default button.
 - Permission prompts use the system sheet. A pre-alert is allowed only to explain a benefit immediately before the system prompt. Never send people to Settings as the first step if the system prompt is still available.
 - Loading states leave the chrome in place and show progress near the content. Do not block the whole app for short work.
@@ -130,14 +126,15 @@ Liquid Glass is the functional layer for controls and navigation (tab bars, tool
 
 ## When you finish a UI change
 
-Confirm:
+Check the states and modes relevant to the task, and report what was actually verified:
 
 - The component matches the decision table.
 - Primary action is visually distinct by style, not by a random larger size.
-- Empty, loading, error, and offline states exist.
+- Empty, loading, error, and offline states are considered where the feature can encounter them.
 - VoiceOver order matches visual order. Focus is not trapped.
 - Dark Mode, a larger Dynamic Type size, and RTL do not collide or clip.
 - Platform-only controls (menu bar, Crown, ornaments, Top Shelf) are not shown on the wrong OS.
+- If iPhone Duo is in scope, compact outer, regular inner, partial fold, portrait and landscape, and Split View preserve the same task and reachable actions.
 
 
 <!-- source: getting-started.md -->
@@ -270,40 +267,77 @@ Games can invent interaction, but system chrome, permissions, and comfort rules 
 
 ## Designing for iPhone Duo
 
-URL: https://developer.apple.com/design/human-interface-guidelines/designing-for-iphone-duo
+See [iphone-duo.md](iphone-duo.md) for display, fold, reserved-region, arrangement-view, and vertical-control guidance.
 
-iPhone Duo is an iPhone with an outer display (closed) and an inner display (open), a center hinge, and many poses. Standard components that already resize adapt with little extra work.
 
-### Anatomy
+<!-- source: iphone-duo.md -->
 
-- Outer display: device closed. Toolbars and tab bars move to the side to save vertical space. The outer camera sits in a corner, aligned with those side controls, and expands into the Dynamic Island for Live Activities.
-- Inner display: device open. In landscape, controls stay on the side so the transition from the outer display does not jump.
-- The hinge consumes space and creates a reserved region. Content and custom controls must stay clear of it.
+# Designing for iPhone Duo
 
-### Poses
+Official HIG: [Designing for iPhone Duo](https://developer.apple.com/design/human-interface-guidelines/designing-for-iphone-duo). Also read [Layout](https://developer.apple.com/design/human-interface-guidelines/layout) and [Designing for iOS](https://developer.apple.com/design/human-interface-guidelines/designing-for-ios). Apple introduced its Duo HIG page on September 9, 2026. Check current SDK availability before using APIs named here.
 
-People use it half-folded like a book, laid flat, or standing on an edge. Do not design a bespoke layout per pose. Compact width for the outer display and regular width for the inner display cover the fundamentals. Let the existing layout expand. Preview poses in Xcode.
+## Core model
 
-### Best practices
+- This is an iPhone experience that moves between an **outer display** when closed and an **inner display** when open. It also supports intermediate poses and Split View multitasking.
+- Design around available space, size classes, safe areas, margins, and reserved regions. Avoid device-name checks, hard-coded screen dimensions, or a separate UI for every hinge angle.
+- Start with a compact-width outer layout and a regular-width inner layout. Keep the information hierarchy, current selection, draft data, and task state continuous as the display or pose changes. The larger layout may show two levels at once, such as list and detail, without removing capabilities from compact width.
+- Standard navigation, presentations, and bars already adapt. Use them before custom geometry or hinge logic.
 
-- Resize. Use size classes, layout margins, and safe area insets. No fixed widths and no checks for a specific display.
-- Keep functionality and element state identical across displays. You may reveal one extra level of hierarchy on the inner display (list and detail together) while the outer display shows one at a time.
-- Controls may move or overflow. The same actions remain reachable in every pose.
-- Follow the system's vertical side placement for tab bars, toolbars, and navigation. Do not force them back to the bottom on the outer display.
-- Games may lock portrait or landscape, but must fill the screen as the pose changes. Keep text and control sizes stable. Prefer a changing aspect ratio over letterboxing.
+## The displays and fold
 
-### Dynamic layouts and reserved regions
+| Situation | Design response |
+| --- | --- |
+| Closed, outer display | Fit the task into compact width and a shorter, wider shape. System bars move to a vertical edge to preserve content height. |
+| Open, inner display | Use the regular width to expose useful detail or a second pane. Keep the same selection and action semantics. |
+| Inner display in landscape | System bars generally remain vertical, preserving continuity with the outer display. |
+| Inner display in portrait | System bars use the familiar horizontal arrangement. |
+| Partially folded | The folding region can divide the inner display into usable areas. Move important anchored controls only as much as needed; ordinary scrollable content can remain continuous. |
+| Two apps in Split View | Each app's controls can sit on its outer edge. Use safe areas for the resulting asymmetric content space. |
 
-Reserved regions are areas content avoids: the outer camera (always), the inner camera (only while the camera is active), and the fold. System alerts, context menus, sheets, and split views already dodge them.
+The outer camera region is always present and can expand into the Dynamic Island. The inner camera is hidden until active. The folding region is conditional on pose. These are **reserved regions**, not a constant center gutter. Alerts, sheets, context menus, and split views account for them through system behavior. If a custom layout needs to position a key control, inspect the reserved regions that intersect it instead of guessing a fixed hinge width.
 
-- Prefer containers that adapt: `NavigationSplitView` / `UISplitViewController`.
-- In grids, prefer an even column count so the fold divides cleanly.
-- For custom layout, keep important elements off the center with the reserved-region APIs (`ReservedRegion` in SwiftUI, the matching UIKit arrangement APIs).
-- When the device folds, move only what is required to stay visible and tappable. Do not reshuffle the whole screen.
+## Choose a layout container
 
-### Arrangement views
+1. For hierarchy, prefer `NavigationSplitView` or `UISplitViewController`. The inner display can show columns together, while the outer display collapses to one pane. Keep navigation outside any arrangement view.
+2. For two pieces of content with a stable relationship, consider `ArrangementView` or `UIArrangementViewController`. A **split** arrangement suits side-by-side or stacked peers; an **overlay** arrangement suits a foreground element over background content. The system can reorganize these around aspect ratio and reserved regions.
+3. A custom `HStack`, `VStack`, or `ZStack` is still appropriate when its content already reflows correctly. Use arrangement views when pose-aware relocation actually improves the design; do not replace every stack mechanically.
+4. For grids that cross the fold, an even number of columns can divide more cleanly. Verify that reading order and selection remain understandable. Continuous feeds, articles, lists, and documents generally keep scrolling rather than jumping to a different region.
+5. For a manually anchored control, use the reserved-region APIs (`reservedRegions(kind:options:layoutDirectionBehavior:)` in SwiftUI, or the UIKit equivalent). Distinguish division regions from occlusion regions, and verify the APIs against the project's SDK.
 
-An arrangement view holds a primary and a secondary view and reorganizes them from display size, orientation, and reserved regions. Two kinds: split and overlay. Use this instead of hand-built `HStack`/`VStack` logic that breaks on the hinge. See `ArrangementView` and `UIArrangementViewController`.
+When content moves around the fold, preserve the visual relationship between a selected item and its menu or controls. Favor a small displacement over an abrupt rearrangement. Avoid centering a primary button, playback control, or focused input on the fold when it becomes unusable.
+
+## Navigation, toolbars, and tab bars
+
+- Let system bars choose their axis. Avoid forcing a conventional bottom tab bar or top navigation bar onto the outer display.
+- Keep relative action order stable across poses. On the vertical axis, primary navigation such as Back or Close belongs near the top, with prominent completion actions nearby.
+- Group related actions with `ToolbarItemGroup` or `UIBarButtonItemGroup`. Use visibility priority for the actions that must survive compression; the system can overflow less important actions.
+- Give symbol toolbar actions a meaningful title, because compact, expanded, accessibility, and overflow presentations may use different representations. Reserve the ellipsis for the system overflow menu.
+- Keep controls near the content they affect. A list-specific filter can belong with the list rather than on a distant vertical bar.
+- For navigation-heavy views, preserving destinations may matter more than showing every toolbar action. For task-heavy views, minimizing the tab bar may leave essential actions visible. Evaluate the actual task and the system's compression behavior.
+- The vertical control edge is tied to the hardware and does not simply mirror in right-to-left languages. Still test the reading order and content layout in RTL.
+
+## Multiple displays and cameras
+
+Most apps only need one adapting scene. If the product has a concrete reason to show content on the outer display while the inner display is active, read Apple's [multiple displays and scenes](https://developer.apple.com/videos/play/tech-talks/111464/) guidance and verify scene-accessory APIs. If the feature is camera capture, check the [camera experience](https://developer.apple.com/videos/play/tech-talks/111465/) guidance before assuming camera direction or coordinates. Do not add a second scene merely because the hardware has two displays.
+
+## Design and QA checklist
+
+Check these on the current SDK's Duo simulator or hardware when available. If unavailable, report that the fold behavior is unverified.
+
+- Outer compact and inner regular layouts preserve selection, editing state, and access to the same actions.
+- Open, closed, partial fold, portrait, landscape, and app Split View do not cover tappable controls or focused text fields.
+- Toolbars, tab bars, overflow menus, sheets, alerts, and context menus remain reachable and readable.
+- Custom centered controls avoid active reserved regions; scrollable content retains continuity.
+- Large Dynamic Type, VoiceOver, Switch Control, RTL, Dark Mode, and Reduce Motion still work in both display layouts.
+- Games and immersive surfaces fill each pose appropriately and keep controls a consistent usable size.
+
+## Primary sources
+
+- [Apple HIG: Designing for iPhone Duo](https://developer.apple.com/design/human-interface-guidelines/designing-for-iphone-duo)
+- [Apple HIG: Layout](https://developer.apple.com/design/human-interface-guidelines/layout)
+- [Apple Tech Talk: Design for iPhone Duo](https://developer.apple.com/videos/play/tech-talks/111466/)
+- [Apple Tech Talk: Strike a pose with adaptive layouts](https://developer.apple.com/videos/play/tech-talks/111463/)
+- [Apple Developer: SwiftUI updates](https://developer.apple.com/documentation/Updates/SwiftUI)
 
 
 <!-- source: foundations.md -->
@@ -2207,7 +2241,7 @@ Guidance: [getting-started.md](getting-started.md)
 
 - URL: https://developer.apple.com/design/human-interface-guidelines/designing-for-iphone-duo
 - Platforms: see page
-- Guidance: [getting-started.md](getting-started.md)
+- Guidance: [iphone-duo.md](iphone-duo.md)
 - Sections: Anatomy; Device poses; Best practices; Dynamic layouts; Reserved regions; Split views; Arrangement views; Vertical controls
 - Cited APIs: `ArrangementView`, `safeAreaInsets`, `HStack`, `Label`, `NavigationSplitView`, `ReservedRegion`, `ToolbarItemGroup`, `ToolbarItemVisibilityPriority`, `ToolbarOverflowMenu`, `ToolbarVerticalCompressionBehavior`, `VStack`, `ZStack`, `UIArrangementViewController`, `UIBarButtonItem`
 
